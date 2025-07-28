@@ -45,7 +45,6 @@ const sendFriendRequest = async (req, res) => {
 
         // Create notification
         await createNotification(
-            req.db,
             friendId,
             'friend_request',
             'New Friend Request',
@@ -60,9 +59,11 @@ const sendFriendRequest = async (req, res) => {
             message: 'Friend request sent successfully'
         });
     } catch (error) {
+        console.error('Send friend request error:', error); // Add error logging
         res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: 'Failed to send friend request'
+            message: 'Failed to send friend request',
+            error: error.message // Return error message for debugging
         });
     }
 };
@@ -156,7 +157,6 @@ const respondToFriendRequest = async (req, res) => {
 
             // Create notification for the requester
             await createNotification(
-                req.db,
                 friendRequest.user_id,
                 'friend_accepted',
                 'Friend Request Accepted',
@@ -188,9 +188,11 @@ const respondToFriendRequest = async (req, res) => {
             });
         }
     } catch (error) {
+        console.error('Respond to friend request error:', error); // Add error logging
         res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: 'Failed to respond to friend request'
+            message: 'Failed to respond to friend request',
+            error: error.message // Return error message for debugging
         });
     }
 };
@@ -274,4 +276,4 @@ module.exports = {
     respondToFriendRequest,
     unfriend,
     getFriendSuggestions
-}; 
+};

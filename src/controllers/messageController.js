@@ -26,8 +26,8 @@ const sendMessage = async (req, res) => {
             } else {
                 // Create new conversation
                 const conversationResult = await runQuery(`
-                    INSERT INTO conversations (type) VALUES ('direct')
-                `);
+                    INSERT INTO conversations (type, created_by) VALUES ('direct', ?)
+                `, [senderId]);
                 finalConversationId = conversationResult.id;
 
                 // Add participants
@@ -71,9 +71,11 @@ const sendMessage = async (req, res) => {
             }
         });
     } catch (error) {
+        console.error('Send message error:', error); // Add error logging
         res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: 'Failed to send message'
+            message: 'Failed to send message',
+            error: error.message // Return error message for debugging
         });
     }
 };

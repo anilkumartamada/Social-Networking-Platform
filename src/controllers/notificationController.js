@@ -20,7 +20,7 @@ const getNotifications = async (req, res) => {
         // Get unread count
         const unreadCount = await getRow(`
             SELECT COUNT(*) as count FROM notifications 
-            WHERE user_id = ? AND read_status = 0
+            WHERE user_id = ? AND read = 0
         `, [userId]);
 
         res.status(HTTP_STATUS.OK).json({
@@ -35,7 +35,7 @@ const getNotifications = async (req, res) => {
                     profilePicture: notif.profile_picture
                 } : null,
                 createdAt: notif.created_at,
-                read: notif.read_status === 1,
+                read: notif.read === 1,
                 actionUrl: notif.action_url
             })),
             unreadCount: unreadCount.count
@@ -43,7 +43,8 @@ const getNotifications = async (req, res) => {
     } catch (error) {
         res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: 'Failed to get notifications'
+            message: 'Failed to get notifications',
+            error:error.message 
         });
     }
 };
@@ -58,13 +59,13 @@ const markAsRead = async (req, res) => {
             // Mark specific notifications as read
             const placeholders = notificationIds.map(() => '?').join(',');
             await runQuery(`
-                UPDATE notifications SET read_status = 1 
+                UPDATE notifications SET read = 1 
                 WHERE user_id = ? AND id IN (${placeholders})
             `, [userId, ...notificationIds]);
         } else {
             // Mark all notifications as read
             await runQuery(`
-                UPDATE notifications SET read_status = 1 WHERE user_id = ?
+                UPDATE notifications SET read = 1 WHERE user_id = ?
             `, [userId]);
         }
 

@@ -92,6 +92,30 @@ const validateGroupId = [
     handleValidationErrors
 ];
 
+// Request ID parameter validation
+const validateRequestId = [
+    param('requestId').isInt({ min: 1 }),
+    handleValidationErrors
+];
+
+// Friend ID parameter validation
+const validateFriendId = [
+    param('friendId').isInt({ min: 1 }),
+    handleValidationErrors
+];
+
+// Conversation ID parameter validation
+const validateConversationId = [
+    param('conversationId').isInt({ min: 1 }),
+    handleValidationErrors
+];
+
+// Message ID parameter validation
+const validateMessageId = [
+    param('messageId').isInt({ min: 1 }),
+    handleValidationErrors
+];
+
 module.exports = {
     validateRegistration,
     validateLogin,
@@ -105,5 +129,9 @@ module.exports = {
     validateCommentId,
     validateStoryId,
     validateGroupId,
+    validateRequestId,
+    validateFriendId,
+    validateConversationId,
+    validateMessageId,
     handleValidationErrors
-}; 
+};

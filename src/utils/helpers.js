@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
 const moment = require('moment');
+const { runQuery } = require('../config/database');
 
 // Password hashing
 const hashPassword = async (password) => {
@@ -109,12 +110,12 @@ const getPaginationInfo = (page = 1, limit = 10) => {
 };
 
 // Create notification
-const createNotification = async (db, userId, type, title, message, actorId = null, targetType = null, targetId = null, actionUrl = null) => {
+const createNotification = async (userId, type, title, message, actorId = null, targetType = null, targetId = null, actionUrl = null) => {
     const sql = `
         INSERT INTO notifications (user_id, type, title, message, actor_id, target_type, target_id, action_url)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `;
-    return await db.runQuery(sql, [userId, type, title, message, actorId, targetType, targetId, actionUrl]);
+    return await runQuery(sql, [userId, type, title, message, actorId, targetType, targetId, actionUrl]);
 };
 
 module.exports = {
@@ -131,4 +132,4 @@ module.exports = {
     isValidEmail,
     getPaginationInfo,
     createNotification
-}; 
+};

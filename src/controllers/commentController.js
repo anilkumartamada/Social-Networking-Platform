@@ -62,9 +62,11 @@ const createComment = async (req, res) => {
             }
         });
     } catch (error) {
+        console.error('Create comment error:', error); // Add error logging
         res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: 'Failed to create comment'
+            message: 'Failed to create comment',
+            error: error.message // Return error message for debugging
         });
     }
 };
@@ -241,4 +243,4 @@ module.exports = {
     getPostComments,
     updateComment,
     deleteComment
-}; 
+};
