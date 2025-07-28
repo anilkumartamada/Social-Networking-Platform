@@ -35,9 +35,11 @@ const createGroup = async (req, res) => {
             }
         });
     } catch (error) {
+        console.error('Create group error:', error); // <-- Add error logging
         res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: 'Failed to create group'
+            message: 'Failed to create group',
+            error: error.message // <-- Return error message for debugging
         });
     }
 };
