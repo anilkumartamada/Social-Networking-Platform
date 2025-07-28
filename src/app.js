@@ -17,6 +17,7 @@ const userRoutes = require('./routes/userRoutes');
 const postRoutes = require('./routes/postRoutes');
 const reactionRoutes = require('./routes/reactionRoutes');
 const commentRoutes = require('./routes/commentRoutes');
+const commentOperationsRoutes = require('./routes/commentOperationsRoutes');
 const friendRoutes = require('./routes/friendRoutes');
 const groupRoutes = require('./routes/groupRoutes');
 const messageRoutes = require('./routes/messageRoutes');
@@ -68,6 +69,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/posts', reactionRoutes); // Reactions are nested under posts
 app.use('/api/posts', commentRoutes); // Comments are nested under posts
+app.use('/api/comments', commentOperationsRoutes); // Comment operations
 app.use('/api/friends', friendRoutes);
 app.use('/api/groups', groupRoutes);
 app.use('/api/messages', messageRoutes);

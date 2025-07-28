@@ -62,6 +62,36 @@ const validateId = [
     handleValidationErrors
 ];
 
+// User ID parameter validation
+const validateUserId = [
+    param('userId').isInt({ min: 1 }),
+    handleValidationErrors
+];
+
+// Post ID parameter validation
+const validatePostId = [
+    param('postId').isInt({ min: 1 }),
+    handleValidationErrors
+];
+
+// Comment ID parameter validation
+const validateCommentId = [
+    param('commentId').isInt({ min: 1 }),
+    handleValidationErrors
+];
+
+// Story ID parameter validation
+const validateStoryId = [
+    param('storyId').isInt({ min: 1 }),
+    handleValidationErrors
+];
+
+// Group ID parameter validation
+const validateGroupId = [
+    param('groupId').isInt({ min: 1 }),
+    handleValidationErrors
+];
+
 module.exports = {
     validateRegistration,
     validateLogin,
@@ -70,5 +100,10 @@ module.exports = {
     validateReaction,
     validatePagination,
     validateId,
+    validateUserId,
+    validatePostId,
+    validateCommentId,
+    validateStoryId,
+    validateGroupId,
     handleValidationErrors
 }; 

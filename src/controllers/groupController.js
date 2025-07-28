@@ -9,7 +9,7 @@ const createGroup = async (req, res) => {
 
         // Create group
         const result = await runQuery(`
-            INSERT INTO groups (name, description, privacy, category, cover_photo, creator_id)
+            INSERT INTO groups (name, description, privacy, category, cover_photo, created_by)
             VALUES (?, ?, ?, ?, ?, ?)
         `, [name, description, privacy || 'public', category, coverPhoto, userId]);
 
@@ -53,7 +53,7 @@ const getGroup = async (req, res) => {
             SELECT g.*, u.first_name as creator_first_name, u.last_name as creator_last_name,
                    COUNT(gm.id) as member_count
             FROM groups g
-            JOIN users u ON g.creator_id = u.id
+            JOIN users u ON g.created_by = u.id
             LEFT JOIN group_members gm ON g.id = gm.group_id AND gm.status = 'active'
             WHERE g.id = ?
             GROUP BY g.id

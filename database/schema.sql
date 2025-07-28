@@ -107,10 +107,10 @@ CREATE TABLE groups (
     privacy VARCHAR(20) DEFAULT 'public',
     category VARCHAR(50),
     cover_photo VARCHAR(255),
-    creator_id INTEGER NOT NULL,
+    created_by INTEGER NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (creator_id) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- Group members table
@@ -158,8 +158,11 @@ CREATE TABLE conversations (
     type VARCHAR(20) DEFAULT 'direct',
     name VARCHAR(100),
     created_by INTEGER NOT NULL,
+    last_message_id INTEGER,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (last_message_id) REFERENCES messages(id) ON DELETE SET NULL
 );
 
 -- Conversation participants table
@@ -209,7 +212,7 @@ CREATE TABLE notifications (
     target_type VARCHAR(50),
     target_id INTEGER,
     action_url VARCHAR(255),
-    read_status BOOLEAN DEFAULT 0,
+    read BOOLEAN DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (actor_id) REFERENCES users(id) ON DELETE CASCADE
