@@ -163,7 +163,7 @@ const getPost = async (req, res) => {
         }
 
         // Check if user can view this post
-        if (userId && !(await canViewPost(req.db, post, userId))) {
+        if (userId && !(await canViewPost(post, userId))) {
             return res.status(HTTP_STATUS.FORBIDDEN).json({
                 success: false,
                 message: 'You cannot view this post'
