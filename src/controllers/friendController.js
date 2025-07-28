@@ -44,15 +44,28 @@ const sendFriendRequest = async (req, res) => {
         `, [userId, friendId, message]);
 
         // Create notification
+        // 🔁 Fetch sender's name using schema fields
+        const sender = await getRow(
+            'SELECT first_name, last_name FROM users WHERE id = ?',
+            [userId]
+        );
+
+        // 🛡️ Fallback in case user is missing
+        const senderName = sender
+            ? `${sender.first_name} ${sender.last_name}`
+            : 'Someone';
+
+        // 🔔 Send clean notification
         await createNotification(
             friendId,
             'friend_request',
             'New Friend Request',
-            `${req.user.firstName} ${req.user.lastName} sent you a friend request`,
+            `${senderName} sent you a friend request`,
             userId,
             'user',
             userId
         );
+
 
         res.status(HTTP_STATUS.CREATED).json({
             success: true,
