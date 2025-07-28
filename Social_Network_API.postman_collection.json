@@ -21,7 +21,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"email\": \"john@example.com\",\n    \"password\": \"securePassword123\"\n}"
+							"raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"email\": \"john@example.com\",\n    \"password\": \"securePassword123\",\n    \"dateOfBirth\": \"1990-01-15\",\n    \"gender\": \"male\"\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/api/auth/register",
@@ -576,6 +576,665 @@
 								{
 									"key": "limit",
 									"value": "10"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Groups",
+			"item": [
+				{
+					"name": "Create Group",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Mumbai Foodies\",\n    \"description\": \"A group for food lovers in Mumbai\",\n    \"privacy\": \"public\",\n    \"category\": \"Food & Drink\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/groups",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "groups"]
+						}
+					}
+				},
+				{
+					"name": "Get Group Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/groups/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "groups", "1"]
+						}
+					}
+				},
+				{
+					"name": "Join Group",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/groups/1/join",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "groups", "1", "join"]
+						}
+					}
+				},
+				{
+					"name": "Get Group Members",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/groups/1/members?page=1&limit=20",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "groups", "1", "members"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Member Role",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"role\": \"moderator\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/groups/1/members/2/role",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "groups", "1", "members", "2", "role"]
+						}
+					}
+				},
+				{
+					"name": "Create Group Post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"Check out this amazing restaurant I found!\",\n    \"location\": \"Bandra, Mumbai\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/groups/1/posts",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "groups", "1", "posts"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Messages",
+			"item": [
+				{
+					"name": "Send Message",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"recipientId\": 2,\n    \"content\": \"Hey! How are you?\",\n    \"attachments\": []\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/messages/send",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "messages", "send"]
+						}
+					}
+				},
+				{
+					"name": "Get Conversations",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/messages/conversations?page=1&limit=20",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "messages", "conversations"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Conversation Messages",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/messages/conversation/1?page=1&limit=50",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "messages", "conversation", "1"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "50"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Mark Message as Read",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/messages/1/read",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "messages", "1", "read"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Notifications",
+			"item": [
+				{
+					"name": "Get Notifications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/notifications?page=1&limit=20",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "notifications"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Mark Notifications as Read",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"notificationIds\": [1, 2, 3]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/notifications/read",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "notifications", "read"]
+						}
+					}
+				},
+				{
+					"name": "Get Notification Settings",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/notifications/settings",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "notifications", "settings"]
+						}
+					}
+				},
+				{
+					"name": "Update Notification Settings",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email_notifications\": true,\n    \"push_notifications\": false,\n    \"friend_requests\": true,\n    \"post_reactions\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/notifications/settings",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "notifications", "settings"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Search",
+			"item": [
+				{
+					"name": "Global Search",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/search?q=john&type=all&page=1&limit=20",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "search"],
+							"query": [
+								{
+									"key": "q",
+									"value": "john"
+								},
+								{
+									"key": "type",
+									"value": "all"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Stories",
+			"item": [
+				{
+					"name": "Create Story",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"text\",\n    \"content\": \"Having a great day! 😊\",\n    \"duration\": 5\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/stories",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "stories"]
+						}
+					}
+				},
+				{
+					"name": "Get Stories Feed",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/stories/feed",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "stories", "feed"]
+						}
+					}
+				},
+				{
+					"name": "Get Story Views",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/stories/1/views",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "stories", "1", "views"]
+						}
+					}
+				},
+				{
+					"name": "View Story",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/stories/1/view",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "stories", "1", "view"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Pages",
+			"item": [
+				{
+					"name": "Create Page",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"My Business\",\n    \"category\": \"Local Business\",\n    \"description\": \"Best coffee in town\",\n    \"contact\": {\n        \"phone\": \"+919876543210\",\n        \"email\": \"contact@mybusiness.com\",\n        \"website\": \"www.mybusiness.com\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/pages",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "pages"]
+						}
+					}
+				},
+				{
+					"name": "Get Page Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/pages/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "pages", "1"]
+						}
+					}
+				},
+				{
+					"name": "Like/Unlike Page",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/pages/1/like",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "pages", "1", "like"]
+						}
+					}
+				},
+				{
+					"name": "Get Page Insights",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/pages/1/insights",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "pages", "1", "insights"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Events",
+			"item": [
+				{
+					"name": "Create Event",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Mumbai Meetup 2024\",\n    \"description\": \"Annual tech meetup\",\n    \"startDate\": \"2024-04-15T10:00:00Z\",\n    \"endDate\": \"2024-04-15T18:00:00Z\",\n    \"location\": \"Convention Center, Mumbai\",\n    \"privacy\": \"public\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/events",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "events"]
+						}
+					}
+				},
+				{
+					"name": "Get Event Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/events/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "events", "1"]
+						}
+					}
+				},
+				{
+					"name": "RSVP to Event",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"going\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/events/1/rsvp",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "events", "1", "rsvp"]
+						}
+					}
+				},
+				{
+					"name": "Get Event Attendees",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/events/1/attendees?page=1&limit=20",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "events", "1", "attendees"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get User Events",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/events/user/events?page=1&limit=20",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "events", "user", "events"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
 								}
 							]
 						}
