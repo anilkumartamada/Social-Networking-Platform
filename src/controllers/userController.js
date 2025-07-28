@@ -197,7 +197,7 @@ const searchUsers = async (req, res) => {
         // Add mutual friends count for each user
         const usersWithMutualFriends = await Promise.all(
             users.map(async (user) => {
-                const mutualFriends = await getMutualFriendsCount(req.db, currentUserId, user.id);
+                const mutualFriends = await getMutualFriendsCount(currentUserId, user.id);
                 return {
                     id: user.id,
                     firstName: user.first_name,

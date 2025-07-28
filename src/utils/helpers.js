@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
 const moment = require('moment');
-const { runQuery } = require('../config/database');
+const { runQuery, getRow } = require('../config/database');
 
 // Password hashing
 const hashPassword = async (password) => {
@@ -44,8 +44,8 @@ const formatDate = (date) => {
     return moment(date).fromNow();
 };
 
-// Calculate mutual friends count
-const getMutualFriendsCount = async (db, userId1, userId2) => {
+// Calculate mutual friends count (now independent of req.db)
+const getMutualFriendsCount = async (userId1, userId2) => {
     const sql = `
         SELECT COUNT(*) as count
         FROM friendships f1
@@ -53,48 +53,39 @@ const getMutualFriendsCount = async (db, userId1, userId2) => {
         WHERE f1.user_id = ? AND f2.user_id = ? 
         AND f1.status = 'accepted' AND f2.status = 'accepted'
     `;
-    const result = await db.getRow(sql, [userId1, userId2]);
+    const result = await getRow(sql, [userId1, userId2]);
     return result ? result.count : 0;
 };
 
 // Check if users are friends
-const areFriends = async (db, userId1, userId2) => {
+const areFriends = async (userId1, userId2) => {
     const sql = `
         SELECT id FROM friendships 
         WHERE ((user_id = ? AND friend_id = ?) OR (user_id = ? AND friend_id = ?))
         AND status = 'accepted'
     `;
-    const result = await db.getRow(sql, [userId1, userId2, userId2, userId1]);
+    const result = await getRow(sql, [userId1, userId2, userId2, userId1]);
     return !!result;
 };
 
 // Check if user can view post based on privacy
-const canViewPost = async (db, post, viewerId) => {
+const canViewPost = async (post, viewerId) => {
     if (!post) return false;
-    
-    // Post owner can always view
+
     if (post.user_id === viewerId) return true;
-    
-    // Public posts can be viewed by anyone
     if (post.privacy === 'public') return true;
-    
-    // Only me posts can only be viewed by owner
     if (post.privacy === 'only_me') return false;
-    
-    // Friends posts can be viewed by friends
     if (post.privacy === 'friends') {
-        return await areFriends(db, post.user_id, viewerId);
+        return await areFriends(post.user_id, viewerId);
     }
-    
+
     return false;
 };
 
 // Sanitize user input
 const sanitizeInput = (input) => {
     if (typeof input !== 'string') return input;
-    return input
-        .replace(/[<>]/g, '')
-        .trim();
+    return input.replace(/[<>]/g, '').trim();
 };
 
 // Validate email format
